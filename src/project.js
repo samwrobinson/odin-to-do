@@ -65,12 +65,9 @@ function createProject(event) {
     }
     function updateProjectList() {
         const projectList = document.querySelector('#project-list');
-        projectList.innerHTML = ``;
-        const trash = new Image();
-        trash.src = Trash;
-        trash.id = 'trash';
-
-        for (const task of taskArray) {
+        projectList.innerHTML = ''; // Clear existing content
+    
+        taskArray.forEach((task, index) => {
             const taskContainer = document.createElement('div');
             taskContainer.classList.add('task');
             taskContainer.innerHTML = `
@@ -81,9 +78,22 @@ function createProject(event) {
                     <p><strong>Priority:</strong> ${task.priority}</p>
                 </div>
             `;
+    
+            // Create a new trash icon for each task
+            const trash = new Image();
+            trash.src = Trash;
+            trash.id = 'trash';
+            trash.classList.add('trash-icon');
+            trash.addEventListener('click', () => deleteTask(index));
+    
             taskContainer.appendChild(trash);
             projectList.appendChild(taskContainer);
-        }
+        });
+    }
+    
+    function deleteTask(index) {
+        taskArray.splice(index, 1);
+        updateProjectList(); 
     }
 }
 

@@ -162,8 +162,12 @@ p {
     box-shadow: var(--main-shadow);
     border-radius: var(--curved-border);
     width: 100%;
+    margin-top: 3%;
     padding: 3%;
     justify-content: space-around;
+}
+.task > * {
+    margin: 2% 0;
 }
 .task-details {
     font-family: 'Inconsolata';
