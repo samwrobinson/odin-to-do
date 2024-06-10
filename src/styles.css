@@ -124,13 +124,15 @@ p {
     border-radius: var(--curved-border);
 }
 #submit-details {
-    width: 50%;
-    height: fit-content;
+    text-align: center;
+    width: 30%;
+    height: 50px;
+    margin: 0 35%;
     background-color: transparent;
     transition: 150ms ease-in-out;
-    border: var(--off-white);
+    border: var(--off-white) solid 1px;
     border-radius: var(--curved-border);
-    font-family: 'Insconsolata';
+    font-family: 'Inconsolata', sans-serif;
 }
 #submit-details:hover {
     background-color: var(--light-blue);
@@ -233,5 +235,9 @@ p {
     #project-list {
         width: 50%;
         margin: 10% 25%;
+    }
+    #submit-details {
+        width: 15%;
+        margin: 0 37.5%;
     }
 }
