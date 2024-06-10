@@ -123,6 +123,19 @@ p {
     box-shadow: var(--main-shadow);
     border-radius: var(--curved-border);
 }
+#submit-details {
+    width: 50%;
+    height: fit-content;
+    background-color: transparent;
+    transition: 150ms ease-in-out;
+    border: var(--off-white);
+    border-radius: var(--curved-border);
+    font-family: 'Insconsolata';
+}
+#submit-details:hover {
+    background-color: var(--light-blue);
+    transition: 200ms ease-in-out;
+}
 #project-list {
     width: 80%;
     margin: 5% 10%;
@@ -165,9 +178,15 @@ p {
     margin-top: 3%;
     padding: 3%;
     justify-content: space-around;
+    scale: 1;
+    transition: 150ms ease-in-out;
+}
+.task:hover {
+    scale: 1.05;
+    transition: 200ms ease-in-out;
 }
 .task > * {
-    margin: 2% 0;
+    margin: 0;
 }
 .task-details {
     font-family: 'Inconsolata';
@@ -180,4 +199,39 @@ p {
 .header-svg {
     height: 25px;
     width: 25px;
+}
+
+@media (min-width: 575px) {
+    #project-list {
+        margin: 10% 10%;
+    }
+    #pop-up {
+        top: 55%;
+    }
+    .task-details {
+        flex-direction: row;
+    }
+}
+@media (min-width: 750px) {
+    .input-container {
+        width: 60%;
+    }
+    #user-input h1 {
+        margin-top: 0;
+    }
+    #user-input {
+        margin: 0 5% 5% 5%;
+    }
+}
+@media (min-width: 850px) {
+    #project-list {
+        width: 65%;
+        margin: 10% 17.5%;
+    }
+}
+@media (min-width: 1000px) {
+    #project-list {
+        width: 50%;
+        margin: 10% 25%;
+    }
 }

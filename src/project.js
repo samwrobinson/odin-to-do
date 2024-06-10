@@ -47,6 +47,7 @@ function createProject(event) {
         popUp.appendChild(priority);
 
         const submitDetails = document.createElement('button');
+        submitDetails.id = 'submit-details';
         submitDetails.textContent = 'Add details.';
         popUp.appendChild(submitDetails);
 
