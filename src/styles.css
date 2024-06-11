@@ -6,6 +6,7 @@
     --off-white: #f2f2f2;
     --curved-border: 5px;
     --light-blue: #E3FCFF;
+    --dark-grey: #7b7b7b;
 }
 @font-face {
     font-family: 'Inconsolata';
@@ -150,13 +151,34 @@ p {
 #trash {
     height: 25px;
     width: 25px;
-    fill: var(--off-white);
-    transition: fill 200ms ease-in-out;
+    position: absolute;
+    top: 3%;
+    right: 2%;
 }
-#trash:hover {
-    fill: var(--light-blue);
-    transition: fill 200ms ease-in-out;
+#subtask {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 4%;
+    right: 15%;
 }
+#subTask-trash {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 4%;
+    right: 3%;
+}
+#subTask-trash path {
+    stroke: var(--dark-grey); /* Remove any stroke to ensure no black lines */
+    transition: stroke 200ms ease-in-out
+}
+#subTask-trash:hover {
+    stroke: var(--light-blue);
+    transition: stroke 300ms ease-in-out;
+}
+
+
 /* Class style formatting */
 
 .details {
@@ -178,7 +200,7 @@ p {
     border-radius: var(--curved-border);
     width: 100%;
     margin-top: 3%;
-    padding: 3%;
+    padding: 15px;
     justify-content: space-around;
     scale: 1;
     transition: 150ms ease-in-out;
@@ -191,12 +213,23 @@ p {
     margin: 0;
 }
 .task-details {
+    position: relative;
     font-family: 'Inconsolata';
     width: 90%;
+    height: auto;
     margin: 2% 5%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     justify-content: space-around;
+    border: var(--off-white) solid 2px;
+    box-shadow: var(--main-shadow);
+}
+.task-details > *:first-child {
+    grid-column: span 2;
+}
+.task-details > * {
+    margin: 5px;
 }
 .header-svg {
     height: 25px;
@@ -211,7 +244,9 @@ p {
         top: 55%;
     }
     .task-details {
-        flex-direction: row;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(40px, auto);
+        grid-auto-flow: row;
     }
 }
 @media (min-width: 750px) {
