@@ -195,7 +195,7 @@ p {
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    border: var(--light-blue) 1px solid;
+    border: var(--light-blue) 2px solid;
     box-shadow: var(--main-shadow);
     border-radius: var(--curved-border);
     width: 100%;
@@ -268,8 +268,17 @@ p {
 }
 @media (min-width: 1000px) {
     #project-list {
-        width: 50%;
-        margin: 10% 25%;
+        width: 90%;
+        margin: 10% 5%;
+        display: flex;
+        justify-content: space-around;
+        overflow-x: auto;
+    }
+    .task {
+        margin:  auto 1.5rem;
+        min-width: 40%;
+        max-width: 90%;
+        margin-top: 0;
     }
     #submit-details {
         width: 15%;

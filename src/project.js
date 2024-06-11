@@ -2,7 +2,7 @@ import Trash from "./images/trash.svg";
 import Subtask from "./images/subtask.svg";
 const taskArray = [];
 
-// Define Project and SubTask classes in a higher scope
+// Define Project and SubTask classes
 class Project {
     constructor(title, description, dueDate, priority) {
         this.title = title;
