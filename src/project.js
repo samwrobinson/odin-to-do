@@ -148,13 +148,49 @@ function subTaskForm(projectIndex) {
     dueDate.placeholder = 'Add a deadline...';
     popUp.appendChild(dueDate);
 
-    let priority = document.createElement('input');
-    priority.classList.add('details');
-    priority.setAttribute('type', 'number');
-    priority.setAttribute('min', '1');
-    priority.setAttribute('max', '5');
-    priority.placeholder = 'Priority from 1 - 5...';
-    popUp.appendChild(priority);
+            // Create priority options
+            const priority = document.createElement('div');
+            const priorityTitle = document.createElement('p');
+            priorityTitle.textContent = 'Priority';
+            priority.appendChild(priorityTitle);
+            priority.classList.add('priority');
+            // Create button options
+            const buttonContainer = document.createElement('div');
+            buttonContainer.classList.add('button-container');
+            const low = document.createElement('button');
+            low.textContent = 'low';
+            const medium = document.createElement('button');
+            medium.textContent = 'medium';
+            const high = document.createElement('button');
+            high.textContent = 'high';
+            low.classList.add('priority-button');
+            medium.classList.add('priority-button');
+            high.classList.add('priority-button');
+            buttonContainer.append(low, medium, high);
+            priority.appendChild(buttonContainer);
+            popUp.appendChild(priority);
+    
+            // Variable to store selected priority
+            let selectedPriority = '';
+    
+            // Event listener for priority buttons
+            buttonContainer.addEventListener('click', (event) => {
+                if (event.target.tagName === 'BUTTON') {
+                    selectedPriority = event.target.textContent;
+                    document.querySelectorAll('.priority-button').forEach(button => {
+                        button.classList.remove('selected');
+                    });
+                    event.target.classList.add('selected');
+                }
+            });
+
+    // let priority = document.createElement('input');
+    // priority.classList.add('details');
+    // priority.setAttribute('type', 'number');
+    // priority.setAttribute('min', '1');
+    // priority.setAttribute('max', '5');
+    // priority.placeholder = 'Priority from 1 - 5...';
+    // popUp.appendChild(priority);
 
     const submitDetails = document.createElement('button');
     submitDetails.id = 'submit-details';
@@ -168,7 +204,7 @@ function subTaskForm(projectIndex) {
         const title = subTaskTitle.value.trim();
         const desc = description.value.trim();
         const date = dueDate.value;
-        const prio = priority.value;
+        const prio = selectedPriority;
 
         if (title && prio) {
             if (taskArray[projectIndex]) {
@@ -206,41 +242,42 @@ function updateProjectList() {
     taskArray.forEach((task, index) => {
         const taskContainer = document.createElement('div');
         taskContainer.classList.add('task');
-        taskContainer.innerHTML = `
-            <div id="project-header">
-                <h4>${task.title}</h4>
-            </div>
-            <div class="task-details">
-                <p><strong>Description:</strong> </br>
-                ${task.description}</p>
-                <p><strong>Deadline:</strong> </br>
-                ${task.dueDate}</p>
-                <p><strong>Priority:</strong> </br>
-                ${task.priority}</p>
-            </div>
-        `;
-        
-        // Append task container to project list
-        projectList.appendChild(taskContainer);
 
-        // Select project header
-        const projectHeader = document.querySelector('#project-header');
+        // Create project header container
+        const projectHeader = document.createElement('div');
+        projectHeader.classList.add('project-header'); // Change id to class to allow multiple
 
-        // Create a new trash icon for each task
-        const trash = new Image();
-        trash.src = Trash;
-        trash.id = 'trash';
-        trash.classList.add('trash-icon');
-        trash.addEventListener('click', () => deleteTask(index));
-        projectHeader.appendChild(trash);
+        // Add title to the header
+        const projectTitle = document.createElement('h4');
+        projectTitle.textContent = task.title;
+        projectHeader.appendChild(projectTitle);
 
         // Create a new subtask add button
         const addSubtaskBtn = new Image();
         addSubtaskBtn.src = Subtask;
         addSubtaskBtn.id = 'subtask';
-        addSubtaskBtn.classList.add('sub-task');
         addSubtaskBtn.addEventListener('click', () => subTaskForm(index));
         projectHeader.appendChild(addSubtaskBtn);
+
+        // Create a new trash icon for each task
+        const trash = new Image();
+        trash.src = Trash;
+        trash.id = 'trash';
+        trash.addEventListener('click', () => deleteTask(index));
+        projectHeader.appendChild(trash);
+
+        // Append the header to the task container
+        taskContainer.appendChild(projectHeader);
+
+        // Add task details
+        const taskDetails = document.createElement('div');
+        taskDetails.classList.add('differentiator');
+        taskDetails.innerHTML = `
+            <p><strong>Description:</strong><br>${task.description}</p>
+            <p><strong>Deadline:</strong><br>${task.dueDate}</p>
+            <p><strong>Priority:</strong><br>${task.priority}</p>
+        `;
+        taskContainer.appendChild(taskDetails);
 
         // Create a subtask list container
         const subtaskList = document.createElement('div');
@@ -251,13 +288,10 @@ function updateProjectList() {
             const subTaskContainer = document.createElement('div');
             subTaskContainer.classList.add('task-details');
             subTaskContainer.innerHTML = `
-                <p><strong>${subTask.title}</strong></br>
-                ${subTask.description}</p>
-                <p><strong>Deadline:</strong> </br>
-                ${subTask.dueDate}</p>
-                <p><strong>Priority:</strong> </br>
-                ${subTask.priority}</p>
-                <svg class="delete-subtask-btn" id="subTask-trash" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <p><strong>${subTask.title}</strong><br>${subTask.description}</p>
+                <p><strong>Deadline:</strong><br>${subTask.dueDate}</p>
+                <p><strong>Priority:</strong><br>${subTask.priority}</p>
+                <svg class="delete-subtask-btn" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20.5001 6H3.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
                 <path d="M9.5 11L10 16" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
                 <path d="M14.5 11L14 16" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
@@ -275,6 +309,9 @@ function updateProjectList() {
 
         // Add the subtask list to the task container
         taskContainer.appendChild(subtaskList);
+
+        // Append task container to project list
+        projectList.appendChild(taskContainer);
     });
 }
 

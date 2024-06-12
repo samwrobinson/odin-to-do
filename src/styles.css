@@ -41,7 +41,6 @@ header {
     font-weight: 300;
     margin: 0;
     width: fit-content;
-    padding: 1%;
   }
   h4 {
     font-weight: 500;
@@ -115,11 +114,11 @@ p {
     justify-content: space-around;
     position: fixed;
     top: 40%;
-    left: 20%;
     width: 60%;
-    height: 30%;
+    height: auto;
     z-index: 2000;
-    margin: 0;
+    margin: 0 20%;
+    padding: 3%;
     background-color: #ffffff;
     box-shadow: var(--main-shadow);
     border-radius: var(--curved-border);
@@ -129,6 +128,7 @@ p {
     width: 30%;
     height: 50px;
     margin: 0 35%;
+    margin-top: 10px;
     background-color: transparent;
     transition: 150ms ease-in-out;
     border: var(--off-white) solid 1px;
@@ -148,13 +148,13 @@ p {
     box-shadow: var(--main-shadow);;
     border-radius: var(--curved-border);
 }
-#project-header {
+.project-header {
     display: flex;
     width: 100%;
     justify-content: space-around;
     align-items: center;
 }
-#project-header h4 {
+.project-header h4 {
     width: 70%;
 }
 #trash {
@@ -177,6 +177,12 @@ p {
     stroke: var(--light-blue);
     transition: stroke 300ms ease-in-out;
 }
+#timer-container {
+    display: flex;
+    align-items: center;
+    margin-right: 15%;
+    font-size: 2rem;
+}
 
 
 /* Class style formatting */
@@ -188,7 +194,7 @@ p {
     border-radius: var(--curved-border);
     background-color: var(--off-white);
     width: 80%;
-    margin: 0 10%;
+    margin: 2% 10%;
     padding: 5px;
 }
 .task {
@@ -202,12 +208,13 @@ p {
     margin-top: 3%;
     padding: 15px;
     justify-content: space-around;
-    scale: 1;
-    transition: 150ms ease-in-out;
 }
-.task:hover {
-    scale: 1.05;
-    transition: 200ms ease-in-out;
+.differentiator {
+    border: none;
+    border-bottom: solid 3px var(--dark-grey);
+    display: flex;
+    width: 100%;;
+    justify-content: space-around;
 }
 .task > * {
     margin: 0;
@@ -223,6 +230,12 @@ p {
     justify-content: space-around;
     border: var(--off-white) solid 2px;
     box-shadow: var(--main-shadow);
+    scale: 1;
+    transition: 150ms ease-in-out;
+}
+.task-details:hover {
+    scale: 1.05;
+    transition: 200ms ease-in-out;
 }
 .task-details > *:first-child {
     grid-column: span 2;
@@ -243,14 +256,26 @@ p {
 }
 .priority-button {
     width: 30%;
+    height: 25px;
     margin: 0 15px;
+    background-color: transparent;
+    transition: 150ms ease-in-out;
+    border: var(--off-white) solid 1px;
+    border-radius: var(--curved-border);
+    font-family: 'Inconsolata', sans-serif;
 }
+.priority-button:hover {
+    background-color: var(--light-blue);
+    transition: 200ms ease-in-out;
+    }
 .button-container {
     display: flex;
     flex-direction: row;
-    width: 100%;
     justify-content: space-around;
     align-items: center;
+}
+.selected {
+    background-color: var(--light-blue);
 }
 
 @media (min-width: 575px) {
@@ -258,7 +283,7 @@ p {
         margin: 10% 10%;
     }
     #pop-up {
-        top: 55%;
+        top: 40%;
     }
     .task-details {
         grid-template-columns: repeat(4, 1fr);
@@ -268,13 +293,18 @@ p {
 }
 @media (min-width: 750px) {
     .input-container {
-        width: 60%;
+        width: 50%;
     }
     #user-input h1 {
         margin-top: 0;
     }
     #user-input {
         margin: 0 5% 5% 5%;
+    }
+    #pop-up {
+        top: 30%;
+        width: 30%;
+        margin: 0 35%;
     }
 }
 @media (min-width: 850px) {
@@ -296,9 +326,5 @@ p {
         min-width: 40%;
         max-width: 90%;
         margin-top: 0;
-    }
-    #submit-details {
-        width: 15%;
-        margin: 0 37.5%;
     }
 }
