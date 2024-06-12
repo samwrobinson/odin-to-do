@@ -22,13 +22,15 @@ class SubTask {
         this.completed = false;
     }
 }
-
+// Function to create a project
 function createProject(event) {
     event.preventDefault();
 
+    // Input to collect project name
     const userInput = document.querySelector('#form-input');
     const userInterface = document.querySelector('#user-interface');
 
+    // Assign project name to a usable variable
     const projectText = userInput.value.trim();
     if (projectText === '') {
         alert('Input cannot be empty.');
@@ -36,41 +38,84 @@ function createProject(event) {
         const popUp = document.createElement('div');
         popUp.id = 'pop-up';
 
+        // Assign project name as the title
         const title = projectText;
 
+        // Create description
         let description = document.createElement('input');
         description.classList.add('details');
         description.placeholder = 'Add task description...';
         popUp.appendChild(description);
 
+        // Create dueDate
         let dueDate = document.createElement('input');
         dueDate.classList.add('details');
         dueDate.setAttribute('type', 'date');
         dueDate.placeholder = 'Add a deadline...';
         popUp.appendChild(dueDate);
 
-        let priority = document.createElement('input');
-        priority.classList.add('details');
-        priority.setAttribute('type', 'number');
-        priority.setAttribute('min', '1');
-        priority.setAttribute('max', '5');
-        priority.placeholder = 'Priority from 1 - 5...';
+        // Create priority options
+        const priority = document.createElement('div');
+        const priorityTitle = document.createElement('p');
+        priorityTitle.textContent = 'Priority';
+        priority.appendChild(priorityTitle);
+        priority.classList.add('priority');
+        // Create button options
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('button-container');
+        const low = document.createElement('button');
+        low.textContent = 'low';
+        const medium = document.createElement('button');
+        medium.textContent = 'medium';
+        const high = document.createElement('button');
+        high.textContent = 'high';
+        low.classList.add('priority-button');
+        medium.classList.add('priority-button');
+        high.classList.add('priority-button');
+        buttonContainer.append(low, medium, high);
+        priority.appendChild(buttonContainer);
         popUp.appendChild(priority);
 
+        // Variable to store selected priority
+        let selectedPriority = '';
+
+        // Event listener for priority buttons
+        buttonContainer.addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                selectedPriority = event.target.textContent;
+                document.querySelectorAll('.priority-button').forEach(button => {
+                    button.classList.remove('selected');
+                });
+                event.target.classList.add('selected');
+            }
+        });
+
+        // let priority = document.createElement('input');
+        // priority.classList.add('details');
+        // priority.setAttribute('type', 'number');
+        // priority.setAttribute('min', '1');
+        // priority.setAttribute('max', '5');
+        // priority.placeholder = 'Priority from 1 - 5...';
+        // popUp.appendChild(priority);
+
+        // Create submit button
         const submitDetails = document.createElement('button');
         submitDetails.id = 'submit-details';
         submitDetails.textContent = 'Add details.';
         popUp.appendChild(submitDetails);
 
+        // Display popup to collect associated info
         userInterface.appendChild(popUp);
 
+        // Eventlistener for submitDetails
         submitDetails.addEventListener('click', () => {
             const desc = description.value.trim();
             const date = dueDate.value;
-            const prio = priority.value;
-            if (desc && date && prio) {
-                taskArray.push(new Project(title, desc, date, prio));
+            if (desc && date && selectedPriority) {
+                // Create and append project list
+                taskArray.push(new Project(title, desc, date, selectedPriority));
                 popUp.remove();
+                showProjectList();
                 userInput.value = '';
                 updateProjectList();
             } else {
@@ -125,7 +170,7 @@ function subTaskForm(projectIndex) {
         const date = dueDate.value;
         const prio = priority.value;
 
-        if (title && desc && date && prio) {
+        if (title && prio) {
             if (taskArray[projectIndex]) {
                 const newSubTask = new SubTask(title, desc, date, prio);
                 taskArray[projectIndex].subTasks.push(newSubTask);
@@ -141,6 +186,18 @@ function subTaskForm(projectIndex) {
     });
 }
 
+// Function to initialize project list
+function showProjectList() {
+    const userInterface = document.querySelector('#user-interface');
+    if (taskArray.length > 0) {
+        if (!document.querySelector('#project-list')) {
+            const projectList = document.createElement('div');
+            projectList.id = 'project-list';
+            userInterface.appendChild(projectList);
+        }
+    }
+}
+
 // Function to update the project list and link the "Add Subtask" button to the correct project
 function updateProjectList() {
     const projectList = document.querySelector('#project-list');
@@ -150,7 +207,9 @@ function updateProjectList() {
         const taskContainer = document.createElement('div');
         taskContainer.classList.add('task');
         taskContainer.innerHTML = `
-            <h4>${task.title}</h4>
+            <div id="project-header">
+                <h4>${task.title}</h4>
+            </div>
             <div class="task-details">
                 <p><strong>Description:</strong> </br>
                 ${task.description}</p>
@@ -160,6 +219,12 @@ function updateProjectList() {
                 ${task.priority}</p>
             </div>
         `;
+        
+        // Append task container to project list
+        projectList.appendChild(taskContainer);
+
+        // Select project header
+        const projectHeader = document.querySelector('#project-header');
 
         // Create a new trash icon for each task
         const trash = new Image();
@@ -167,7 +232,7 @@ function updateProjectList() {
         trash.id = 'trash';
         trash.classList.add('trash-icon');
         trash.addEventListener('click', () => deleteTask(index));
-        taskContainer.appendChild(trash);
+        projectHeader.appendChild(trash);
 
         // Create a new subtask add button
         const addSubtaskBtn = new Image();
@@ -175,7 +240,7 @@ function updateProjectList() {
         addSubtaskBtn.id = 'subtask';
         addSubtaskBtn.classList.add('sub-task');
         addSubtaskBtn.addEventListener('click', () => subTaskForm(index));
-        taskContainer.appendChild(addSubtaskBtn);
+        projectHeader.appendChild(addSubtaskBtn);
 
         // Create a subtask list container
         const subtaskList = document.createElement('div');
@@ -210,8 +275,6 @@ function updateProjectList() {
 
         // Add the subtask list to the task container
         taskContainer.appendChild(subtaskList);
-
-        projectList.appendChild(taskContainer);
     });
 }
 

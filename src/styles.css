@@ -148,26 +148,26 @@ p {
     box-shadow: var(--main-shadow);;
     border-radius: var(--curved-border);
 }
+#project-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+#project-header h4 {
+    width: 70%;
+}
 #trash {
     height: 25px;
     width: 25px;
-    position: absolute;
-    top: 3%;
-    right: 2%;
 }
 #subtask {
     height: 20px;
     width: 20px;
-    position: absolute;
-    top: 4%;
-    right: 15%;
 }
 #subTask-trash {
     height: 20px;
     width: 20px;
-    position: absolute;
-    top: 4%;
-    right: 3%;
 }
 #subTask-trash path {
     stroke: var(--dark-grey); /* Remove any stroke to ensure no black lines */
@@ -213,7 +213,6 @@ p {
     margin: 0;
 }
 .task-details {
-    position: relative;
     font-family: 'Inconsolata';
     width: 90%;
     height: auto;
@@ -234,6 +233,24 @@ p {
 .header-svg {
     height: 25px;
     width: 25px;
+}
+.priority {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+.priority-button {
+    width: 30%;
+    margin: 0 15px;
+}
+.button-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
 }
 
 @media (min-width: 575px) {

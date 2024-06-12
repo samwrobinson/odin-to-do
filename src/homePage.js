@@ -1,5 +1,5 @@
 import header from "./header";
-import createProject from "./project";
+import createProject, { taskArray } from "./project";
 
 function homePage() {
     header();
@@ -39,10 +39,6 @@ function homePage() {
     userInput.appendChild(form);
 
     form.addEventListener('submit', createProject)
-
-    const projectList = document.createElement('div');
-    projectList.id = 'project-list';
-    userInterface.appendChild(projectList);
 }
 
 export default homePage;
