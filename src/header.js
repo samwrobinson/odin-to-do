@@ -82,7 +82,7 @@ function header() {
         }
         if (!timerActive) {
             const display = document.querySelector('#timer');
-            const twentyFiveMinutes = .25 * 60; // 25 minutes in seconds
+            const twentyFiveMinutes = 25 * 60; // 25 minutes in seconds
             startTimer(twentyFiveMinutes, display);
             timerActive = true; // Set timer state to active
         }
