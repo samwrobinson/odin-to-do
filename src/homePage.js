@@ -2,10 +2,16 @@ import header from "./header";
 import createProject, { taskArray } from "./project";
 
 function homePage() {
-    header();
 
     // Select UI container
     const userInterface = document.querySelector('#user-interface');
+
+    // Create div for header & timer
+    const headerAndTimer = document.createElement('div');
+    headerAndTimer.id = 'header-timer';
+    userInterface.appendChild(headerAndTimer);
+
+    header();
 
     // Create input area
     const userInput = document.createElement('div');
@@ -14,7 +20,7 @@ function homePage() {
 
     const tagLine = document.createElement('h1');
     tagLine.textContent = 'time to focus.'
-    userInput.appendChild(tagLine);
+    headerAndTimer.appendChild(tagLine);
 
     // Create form input
     const form = document.createElement('form');

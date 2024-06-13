@@ -22,9 +22,30 @@ class SubTask {
         this.completed = false;
     }
 }
+
+function saveLocalStorage() {
+    localStorage.setItem('taskArray', JSON.stringify(taskArray));
+}
+
+function loadFromLocalStorage() {
+    const storedTasks = localStorage.getItem('taskArray');
+    if (storedTasks) {
+        const parsedTasks = JSON.parse(storedTasks);
+        // Convert parsed tasks into instances of Project and SubTask
+        parsedTasks.forEach(task => {
+            const project = new Project(task.title, task.description, task.dueDate, task.priority);
+            task.subTasks.forEach(subTask => {
+                const subtask = new SubTask(subTask.title, subTask.description, subTask.dueDate, subTask.priority);
+                project.subTasks.push(subtask);
+            });
+            taskArray.push(project);
+        });
+    }
+}
+
 // Function to create a project
 function createProject(event) {
-    event.preventDefault();
+    event.preventDefault();    
 
     // Input to collect project name
     const userInput = document.querySelector('#form-input');
@@ -90,14 +111,6 @@ function createProject(event) {
             }
         });
 
-        // let priority = document.createElement('input');
-        // priority.classList.add('details');
-        // priority.setAttribute('type', 'number');
-        // priority.setAttribute('min', '1');
-        // priority.setAttribute('max', '5');
-        // priority.placeholder = 'Priority from 1 - 5...';
-        // popUp.appendChild(priority);
-
         // Create submit button
         const submitDetails = document.createElement('button');
         submitDetails.id = 'submit-details';
@@ -117,6 +130,7 @@ function createProject(event) {
                 popUp.remove();
                 showProjectList();
                 userInput.value = '';
+                saveLocalStorage();
                 updateProjectList();
             } else {
                 alert('All fields are required!');
@@ -184,14 +198,6 @@ function subTaskForm(projectIndex) {
                 }
             });
 
-    // let priority = document.createElement('input');
-    // priority.classList.add('details');
-    // priority.setAttribute('type', 'number');
-    // priority.setAttribute('min', '1');
-    // priority.setAttribute('max', '5');
-    // priority.placeholder = 'Priority from 1 - 5...';
-    // popUp.appendChild(priority);
-
     const submitDetails = document.createElement('button');
     submitDetails.id = 'submit-details';
     submitDetails.textContent = 'Add sub-task';
@@ -211,6 +217,7 @@ function subTaskForm(projectIndex) {
                 const newSubTask = new SubTask(title, desc, date, prio);
                 taskArray[projectIndex].subTasks.push(newSubTask);
                 popUp.remove(); // Remove the pop-up after adding the subtask
+                saveLocalStorage();
                 updateProjectList(); // Update UI to reflect the new subtask
             } else {
                 console.error('Project index out of bounds');
@@ -319,6 +326,7 @@ function updateProjectList() {
 function deleteSubTask(projectIndex, subtaskIndex) {
     if (taskArray[projectIndex]) {
         taskArray[projectIndex].subTasks.splice(subtaskIndex, 1);
+        saveLocalStorage();
         updateProjectList();
     }
 }
@@ -326,8 +334,15 @@ function deleteSubTask(projectIndex, subtaskIndex) {
 function deleteTask(index) {
     if (taskArray[index]) {
         taskArray.splice(index, 1);
+        saveLocalStorage();
         updateProjectList();
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadFromLocalStorage();
+    showProjectList();
+    updateProjectList();
+});
 
 export default createProject;
